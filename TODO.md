@@ -2,20 +2,30 @@
 
 ## Assets
 
-- Player
-- Enemies
-- Walls
-- Box
-- Bomb
-- Fire
-- Power-ups
+- [x] Player
+- [ ] Enemies
+- [x] Walls
+- [x] Box
+- [x] Bomb
+- [x] Fire
+- [ ] Power-ups
 
 ## Map
 
-- Tileset?
-- Procedural generation?
+- [x] Basic Tileset
+- [ ] Prettier tileset
+- [ ] Procedural generation?
 
 ## Controls
 
-- Walk, Place bomb, collide with placed bomb
+- [x] Walk, Place bomb, collide with placed bomb
 
+## Enemies
+
+- [ ] Enemy asset
+- [ ] AI
+
+## Boxes
+
+- [ ] Destroy on hit
+- [ ] Drop power-ups (% chance)
