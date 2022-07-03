@@ -32,8 +32,7 @@ function love.load()
   for i,row in ipairs(map) do
     for j,col in ipairs(row) do
       if col ~= 0 then
-        local obj = objSwitch[col]((j-1) * 32, (i-1) * 32, image)
-        world:add(obj, obj.x, obj.y, obj.width, obj.height)
+        objSwitch[col]((j-1) * 32, (i-1) * 32, image)
       end
     end
   end
