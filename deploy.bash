@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 git_hash=$(git rev-parse HEAD)
 love_file=boboman.love
@@ -8,10 +8,10 @@ cd game
 zip -r ../$love_file .
 cd -
 
-tmp_dir=$(mktemp /tmp/love.XXXXXXX)
+tmp_dir=$(mktemp -d 2>/dev/null || mktemp -d -t 'love')
 mv $love_file $tmp_dir
 
-git ls-remote --heads origin $branch && {
+git ls-remote --exit-code --heads origin $branch && {
   git checkout $branch
   git pull
 } || {
