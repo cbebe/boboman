@@ -1,4 +1,4 @@
-local Entity = require('src.entity')
+local Entity = require 'src.entity'
 local Box = Entity:extend()
 
 function Box:new(x, y, image)

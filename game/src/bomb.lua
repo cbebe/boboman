@@ -1,5 +1,5 @@
-local Explosion = require('src.explosion')
-local Entity = require('src.entity')
+local Explosion = require 'src.explosion'
+local Entity = require 'src.entity'
 local Bomb = Entity:extend()
 
 function Bomb:new(x, y, image, pid, strength)
@@ -26,7 +26,7 @@ local function placeExplosion(xTile, yTile, image)
 end
 
 local function explodeInLine(xTile, yTile, strength, direction, image)
-  for i=1,strength do
+  for i = 1, strength do
     if not placeExplosion(xTile + direction.x * i, yTile + direction.y * i, image) then
       break
     end
@@ -34,27 +34,27 @@ local function explodeInLine(xTile, yTile, strength, direction, image)
 end
 
 local DIRECTION = {
-  {x =-1, y =  0}, -- left
-  {x = 1, y =  0}, -- right
-  {x = 0, y = -1}, -- up
-  {x = 0, y =  1}, -- down
+  { x = -1, y = 0 }, -- left
+  { x = 1, y = 0 }, -- right
+  { x = 0, y = -1 }, -- up
+  { x = 0, y = 1 }, -- down
 }
 
 function Bomb:explode(_)
-    self.exploded = true
-    local xTile, yTile = self:getTile()
-    placeExplosion(xTile, yTile, self.image)
-    for i=1,#DIRECTION do
-      explodeInLine(xTile, yTile, self.strength, DIRECTION[i], self.image)
-    end
-    world:remove(self)
+  self.exploded = true
+  local xTile, yTile = self:getTile()
+  placeExplosion(xTile, yTile, self.image)
+  for i = 1, #DIRECTION do
+    explodeInLine(xTile, yTile, self.strength, DIRECTION[i], self.image)
+  end
+  world:remove(self)
 end
 
 function Bomb:update(dt)
   Bomb.super.update(self, dt)
   local _, _, cols, len = world:check(self)
   local onPlayer = false
-  for i=1,len do
+  for i = 1, len do
     local other = cols[i].other
     if other.isPlayer and other.pid == other.pid then
       onPlayer = true

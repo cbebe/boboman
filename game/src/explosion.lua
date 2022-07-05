@@ -1,4 +1,4 @@
-local Entity = require('src.entity')
+local Entity = require 'src.entity'
 local Explosion = Entity:extend()
 
 function Explosion:new(x, y, image)

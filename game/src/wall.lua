@@ -1,4 +1,4 @@
-local Entity = require('src.entity')
+local Entity = require 'src.entity'
 local Wall = Entity:extend()
 
 function Wall:new(x, y, image)

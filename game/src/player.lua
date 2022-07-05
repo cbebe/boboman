@@ -1,6 +1,6 @@
-local Entity = require('src.entity')
+local Entity = require 'src.entity'
 local Player = Entity:extend()
-local Bomb = require('src.bomb')
+local Bomb = require 'src.bomb'
 
 local playerCount = 0
 
@@ -19,29 +19,31 @@ end
 
 local function playerFilter(self, other)
   -- don't slide on newly-placed bombs
-  if other.isBomb and other.pid == self.pid and other.newBomb then return 'cross'
-  elseif other.isExplosion then return 'cross'
-  else return 'slide'
+  if other.isBomb and other.pid == self.pid and other.newBomb then
+    return 'cross'
+  elseif other.isExplosion then
+    return 'cross'
+  else
+    return 'slide'
   end
 end
 
 local function movePlayer(self, dx, dy, dt)
-  local actualX, actualY = world:move(
-    self,
-    self.x + dx * self.speed * dt,
-    self.y + dy * self.speed * dt,
-    playerFilter
-  )
+  local actualX, actualY = world:move(self, self.x + dx * self.speed * dt, self.y + dy * self.speed * dt, playerFilter)
   self.x = actualX
   self.y = actualY
 end
 
 local function handlePlayerMovement(self, dt)
-  if     down('up')    then movePlayer(self,  0, -1, dt)
-  elseif down('down')  then movePlayer(self,  0,  1, dt)
+  if down 'up' then
+    movePlayer(self, 0, -1, dt)
+  elseif down 'down' then
+    movePlayer(self, 0, 1, dt)
   end
-  if     down('left')  then movePlayer(self, -1,  0, dt)
-  elseif down('right') then movePlayer(self,  1,  0, dt)
+  if down 'left' then
+    movePlayer(self, -1, 0, dt)
+  elseif down 'right' then
+    movePlayer(self, 1, 0, dt)
   end
 end
 
@@ -51,12 +53,12 @@ end
 
 function Player:update(dt)
   Player.super.update(self, dt)
-  self.bombTimer  = self.bombTimer - dt
+  self.bombTimer = self.bombTimer - dt
   if not self.canBomb and self.bombTimer < 0 then
     self.canBomb = true
     self.bombTimer = 0
   end
-  if down('space') and self.canBomb then
+  if down 'space' and self.canBomb then
     self.bombTimer = 2
     self.canBomb = false
     local xTile, yTile = self:getTile()

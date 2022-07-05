@@ -1,4 +1,4 @@
-local Object = require('libs.classic')
+local Object = require 'libs.classic'
 local Entity = Object:extend()
 
 local floor = math.floor
@@ -14,8 +14,8 @@ function Entity:new(x, y, image, qx, qy, qw, qh)
 end
 
 function Entity:getTile()
-  local xTile = floor((self.x + self.width/2) / 32)
-  local yTile = floor((self.y + self.height/2) / 32)
+  local xTile = floor((self.x + self.width / 2) / 32)
+  local yTile = floor((self.y + self.height / 2) / 32)
   return xTile, yTile
 end
 
@@ -23,7 +23,6 @@ function Entity:draw()
   love.graphics.draw(self.image, self.quad, self.x, self.y)
 end
 
-function Entity:update(_)
-end
+function Entity:update(_) end
 
 return Entity
