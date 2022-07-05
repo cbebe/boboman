@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e
 git_current_branch=$(git rev-parse --abbrev-ref HEAD)
 git_hash=$(git rev-parse HEAD)
 love_file=boboman.love
