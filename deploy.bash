@@ -19,7 +19,8 @@ git ls-remote --exit-code --heads origin $branch && {
 }
 
 rm -rf *
-unzip $tmp_dir/$love_file
+love.js -t Boboman $tmp_dir/$love_file .
+rm -rf $tmp_dir
 
 git add .
 git commit -m "Deploy Love.js - based on $git_hash"
