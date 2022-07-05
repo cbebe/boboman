@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+git_branch=$(git rev-parse --abbrev-ref HEAD)
 git_hash=$(git rev-parse HEAD)
 love_file=boboman.love
 branch=gh-pages
@@ -19,9 +20,10 @@ git ls-remote --exit-code --heads origin $branch && {
 }
 
 rm -rf *
-love.js -t Boboman $tmp_dir/$love_file .
+love.js -c -t Boboman $tmp_dir/$love_file .
 rm -rf $tmp_dir
 
 git add .
 git commit -m "Deploy Love.js - based on $git_hash"
 git push origin $branch
+git checkout $git_branch
