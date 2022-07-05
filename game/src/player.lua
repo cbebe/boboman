@@ -29,9 +29,15 @@ local function playerFilter(self, other)
 end
 
 local function movePlayer(self, dx, dy, dt)
-  local actualX, actualY = world:move(self, self.x + dx * self.speed * dt, self.y + dy * self.speed * dt, playerFilter)
-  self.x = actualX
-  self.y = actualY
+  local width = love.graphics.getWidth()
+  local height = love.graphics.getHeight()
+
+  local actualX, actualY = world:check(self, self.x + dx * self.speed * dt, self.y + dy * self.speed * dt, playerFilter)
+  if actualX >= 32 and actualX <= width - 32 and actualY >= 32 and actualY <= height - 32 then
+    self.x = actualX
+    self.y = actualY
+    world:update(self, self.x, self.y)
+  end
 end
 
 local function handlePlayerMovement(self, dt)
@@ -59,7 +65,8 @@ function Player:update(dt)
     self.bombTimer = 0
   end
   if down 'space' and self.canBomb then
-    self.bombTimer = 2
+    -- add extra second to prevent some explosion overlap
+    self.bombTimer = 2 + 1
     self.canBomb = false
     local xTile, yTile = self:getTile()
     placeBomb(xTile, yTile, self.image, self.pid, self.bombStrength)
