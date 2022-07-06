@@ -3,7 +3,7 @@
 ## Assets
 
 - [x] Player
-- [ ] Enemies
+- [x] Enemies
 - [x] Walls
 - [x] Box
 - [x] Bomb
@@ -22,10 +22,23 @@
 
 ## Enemies
 
-- [ ] Enemy asset
+- [x] Enemy asset
 - [ ] AI
 
 ## Boxes
 
-- [ ] Destroy on hit
+- [x] Destroy on hit
 - [ ] Drop power-ups (% chance)
+
+## Powerups
+
+- [ ] Bomb strength
+- [ ] Multiple bombs
+- [ ] Kick bombs
+- [ ] Explode through boxes
+
+## Player damage
+
+- [ ] Touching explosion
+- [ ] Touching enemy
+- [ ] Getting damaged should make player pass through bombs temporarily
