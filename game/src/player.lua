@@ -19,10 +19,11 @@ function Player:new(x, y, image)
 end
 
 local function playerFilter(self, other)
-  -- don't slide on newly-placed bombs
   if other.type == 'bomb' and other.pid == self.pid and other.newBomb then
+    -- don't slide on newly-placed bombs
     return 'cross'
-  elseif other.type == 'explosion' then
+  elseif other.type == 'explosion' or other.type == 'enemy' then
+    -- things that hurt the player shouldn't block
     return 'cross'
   else
     return 'slide'
