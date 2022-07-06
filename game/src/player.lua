@@ -56,8 +56,7 @@ end
 
 local function placeBomb(self)
   local xTile, yTile = self:getTile()
-  -- add extra second to prevent some explosion overlap
-  self.bombTimer = 2 + 1
+  self.bombTimer = 2
   self.canBomb = false
   Bomb((xTile * 32) + 2, (yTile * 32) + 2, self.image, self.pid, self.bombStrength, self.bombExplodesThroughBoxes)
 end

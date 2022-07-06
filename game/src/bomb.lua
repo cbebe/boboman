@@ -54,16 +54,16 @@ local function explode(self)
   end
 end
 
+local function playerFilter(pid)
+  return function(item)
+    return item.type == 'player' and item.pid == pid
+  end
+end
+
 function Bomb:update(dt)
   Bomb.super.update(self, dt)
-  local _, _, cols, len = world:check(self)
-  local onPlayer = false
-  for i = 1, len do
-    local other = cols[i].other
-    if other.type == 'player' and other.pid == other.pid then
-      onPlayer = true
-    end
-  end
+  local _, len = world:queryRect(self.x, self.y, self.width, self.height, playerFilter(self.pid))
+  local onPlayer = len ~= 0
   if self.newBomb and not onPlayer then
     self.newBomb = false
   end
