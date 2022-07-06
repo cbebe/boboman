@@ -12,16 +12,17 @@ function Player:new(x, y, image)
   self.speed = 150
   self.pid = playerCount
   self.canBomb = true
-  self.isPlayer = true
+  self.type = 'player'
   self.bombTimer = 0
-  self.bombStrength = 1
+  self.bombStrength = 2
+  self.bombExplodesThroughBoxes = false
 end
 
 local function playerFilter(self, other)
   -- don't slide on newly-placed bombs
-  if other.isBomb and other.pid == self.pid and other.newBomb then
+  if other.type == 'bomb' and other.pid == self.pid and other.newBomb then
     return 'cross'
-  elseif other.isExplosion then
+  elseif other.type == 'explosion' then
     return 'cross'
   else
     return 'slide'
@@ -53,8 +54,12 @@ local function handlePlayerMovement(self, dt)
   end
 end
 
-local function placeBomb(xTile, yTile, image, pid, strength)
-  Bomb((xTile * 32) + 2, (yTile * 32) + 2, image, pid, strength)
+function Player:placeBomb()
+  local xTile, yTile = self:getTile()
+  -- add extra second to prevent some explosion overlap
+  self.bombTimer = 2 + 1
+  self.canBomb = false
+  Bomb((xTile * 32) + 2, (yTile * 32) + 2, self.image, self.pid, self.bombStrength, self.bombExplodesThroughBoxes)
 end
 
 function Player:update(dt)
@@ -65,11 +70,7 @@ function Player:update(dt)
     self.bombTimer = 0
   end
   if down 'space' and self.canBomb then
-    -- add extra second to prevent some explosion overlap
-    self.bombTimer = 2 + 1
-    self.canBomb = false
-    local xTile, yTile = self:getTile()
-    placeBomb(xTile, yTile, self.image, self.pid, self.bombStrength)
+    self:placeBomb()
   end
   handlePlayerMovement(self, dt)
 end

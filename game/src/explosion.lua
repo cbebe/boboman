@@ -3,7 +3,7 @@ local Explosion = Entity:extend()
 
 function Explosion:new(x, y, image)
   Explosion.super.new(self, x, y, image, 0, 64, 30, 30)
-  self.isExplosion = true
+  self.type = 'explosion'
   self.timer = 1
 end
 

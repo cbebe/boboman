@@ -6,6 +6,7 @@ local floor = math.floor
 function Entity:new(x, y, image, qx, qy, qw, qh)
   self.x = x
   self.y = y
+  self.type = 'entity'
   self.image = image
   self.quad = love.graphics.newQuad(qx, qy, qw, qh, image:getWidth(), image:getHeight())
   self.width = qw
