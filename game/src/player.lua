@@ -54,7 +54,7 @@ local function handlePlayerMovement(self, dt)
   end
 end
 
-function Player:placeBomb()
+local function placeBomb(self)
   local xTile, yTile = self:getTile()
   -- add extra second to prevent some explosion overlap
   self.bombTimer = 2 + 1
@@ -70,7 +70,7 @@ function Player:update(dt)
     self.bombTimer = 0
   end
   if down 'space' and self.canBomb then
-    self:placeBomb()
+    placeBomb(self)
   end
   handlePlayerMovement(self, dt)
 end

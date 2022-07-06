@@ -13,47 +13,45 @@ function Bomb:new(x, y, image, pid, strength, explodeThroughBoxes)
   self.explodeThroughBoxes = explodeThroughBoxes
 end
 
-local function wallFilter(item)
-  return item.type == 'wall'
+local function filterItems(x, y, type)
+  local _, len = world:queryPoint(x, y, function(item)
+    return item.type == type
+  end)
+  return len
 end
 
-local function boxFilter(item)
-  return item.type == 'box'
-end
-
-function Bomb:placeExplosion(xTile, yTile)
+local function placeExplosion(self, xTile, yTile)
   local x, y = (xTile * 32) + 1, (yTile * 32) + 1
-  local _, wallLen = world:queryPoint(x, y, wallFilter)
+  local wallLen, boxLen = filterItems(x, y, 'wall'), filterItems(x, y, 'box')
   if wallLen == 0 then
     Explosion(x, y, self.image)
   end
-  local _, boxLen = world:queryPoint(x, y, boxFilter)
   return wallLen == 0 and (boxLen == 0 or self.explodeThroughBoxes)
 end
 
-function Bomb:explodeInLine(xTile, yTile, direction)
+local function explodeInLine(self, xTile, yTile, direction)
   for i = 1, self.strength do
-    if not self:placeExplosion(xTile + direction.x * i, yTile + direction.y * i) then
+    if not placeExplosion(self, xTile + direction.x * i, yTile + direction.y * i) then
       break
     end
   end
 end
 
 local DIRECTION = {
-  { x = -1, y = 0 }, -- left
-  { x = 1, y = 0 }, -- right
-  { x = 0, y = -1 }, -- up
-  { x = 0, y = 1 }, -- down
+  left = { x = -1, y = 0 },
+  right = { x = 1, y = 0 },
+  up = { x = 0, y = -1 },
+  down = { x = 0, y = 1 },
 }
 
-function Bomb:explode(_)
+local function explode(self)
   self.exploded = true
   local xTile, yTile = self:getTile()
-  self:placeExplosion(xTile, yTile)
-  for i = 1, #DIRECTION do
-    self:explodeInLine(xTile, yTile, DIRECTION[i])
-  end
   world:remove(self)
+  placeExplosion(self, xTile, yTile)
+  for _, v in pairs(DIRECTION) do
+    explodeInLine(self, xTile, yTile, v)
+  end
 end
 
 function Bomb:update(dt)
@@ -72,7 +70,7 @@ function Bomb:update(dt)
   if not self.exploded then
     self.timer = self.timer - dt
     if self.timer <= 0 then
-      self:explode(dt)
+      explode(self)
     end
   end
 end
