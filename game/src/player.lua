@@ -13,9 +13,18 @@ local PlayerSprites = {
   { 0, 129, 30, 28 }, -- yellow
 }
 
+local PlayerControls = {
+  { up = 'up', down = 'down', left = 'left', right = 'right', bomb = 'space' },
+  { up = 'w', down = 's', left = 'a', right = 'd', bomb = 'f' },
+  -- poor guy mashed between two players
+  { up = 'i', down = 'k', left = 'j', right = 'l', bomb = ';' },
+  { up = 'kp8', down = 'kp5', left = 'kp4', right = 'kp6', bomb = 'kp+' },
+}
+
 function Player:new(x, y, image)
   playerCount = playerCount + 1
   local sprite = PlayerSprites[playerCount]
+  self.ctrl = PlayerControls[playerCount]
   Player.super.new(self, x, y, image, unpack(sprite))
   self.speed = 150
   self.pid = playerCount
@@ -51,14 +60,14 @@ local function movePlayer(self, dx, dy, dt)
 end
 
 local function handlePlayerMovement(self, dt)
-  if down 'up' then
+  if down(self.ctrl.up) then
     movePlayer(self, 0, -1, dt)
-  elseif down 'down' then
+  elseif down(self.ctrl.down) then
     movePlayer(self, 0, 1, dt)
   end
-  if down 'left' then
+  if down(self.ctrl.left) then
     movePlayer(self, -1, 0, dt)
-  elseif down 'right' then
+  elseif down(self.ctrl.right) then
     movePlayer(self, 1, 0, dt)
   end
 end
@@ -77,7 +86,7 @@ function Player:update(dt)
     self.canBomb = true
     self.bombTimer = 0
   end
-  if down 'space' and self.canBomb then
+  if down(self.ctrl.bomb) and self.canBomb then
     placeBomb(self)
   end
   handlePlayerMovement(self, dt)
