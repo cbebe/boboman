@@ -42,13 +42,48 @@ local function makeMap(x, y)
   return map
 end
 
-local function fillMap(map)
-  map[2][2] = Entities.PLAYER
+local abs = math.abs
+
+local function fillMap(map, numPlayers)
+  local rows = #map
+  local cols = #map[1]
+  local players = {
+    { 2, 2 },
+    { 2, cols - 1 },
+    { rows - 1, cols - 1 },
+    { rows - 1, 2 },
+  }
+
+  for n = 1, numPlayers do
+    local v = players[n]
+    map[v[1]][v[2]] = Entities.PLAYER
+  end
+
+  -- use manhattan distance to make sure players aren't trapped
+  local function nearPlayer(i, j)
+    for n = 1, numPlayers do
+      local v = players[n]
+      if abs(i - v[1]) + abs(j - v[2]) < 4 then
+        return true
+      end
+    end
+    return false
+  end
+
+  -- random map?
+  for i = 1, #map - 1 do
+    for j = 1, #map[i] - 1 do
+      local empty = map[i][j] == Entities.NOTHING
+      if not nearPlayer(i, j) and empty then
+        map[i][j] = love.math.random(0, 3) > 0 and Entities.BOX or Entities.NOTHING
+      end
+    end
+  end
   return map
 end
 
-Map.make = function(x, y)
-  return fillMap(makeMap(x, y))
+Map.make = function(x, y, numPlayers)
+  return fillMap(makeMap(x, y), numPlayers)
 end
 
 return Map

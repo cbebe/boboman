@@ -4,7 +4,7 @@ function love.load()
   love.window.setMode(width, height + 8, flags)
   local image = love.graphics.newImage('assets/boboman.png', nil)
   local Map = require 'src.map'
-  local map = Map.make(25, 19)
+  local map = Map.make(25, 19, 4)
   for i, row in ipairs(map) do
     for j, col in ipairs(row) do
       if col ~= 0 then
