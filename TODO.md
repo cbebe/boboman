@@ -10,15 +10,23 @@
 - [x] Fire
 - [ ] Power-ups
 
+## Animation
+
+- [ ] Player walking
+- [ ] Bomb
+- [ ] Explosion
+- [ ] Dying
+
 ## Map
 
 - [x] Basic Tileset
 - [ ] Prettier tileset
-- [ ] Procedural generation?
+- [x] Random map generation
 
 ## Controls
 
 - [x] Walk, Place bomb, collide with placed bomb
+- [x] Multiple players
 
 ## Enemies
 
@@ -36,6 +44,7 @@
 - [ ] Multiple bombs
 - [ ] Kick bombs
 - [ ] Explode through boxes
+- [ ] Walk speed
 
 ## Player damage
 
