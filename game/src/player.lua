@@ -6,9 +6,17 @@ local playerCount = 0
 
 local down = love.keyboard.isDown
 
+local PlayerSprites = {
+  { 32, 33, 30, 28 }, -- white
+  { 0, 97, 30, 28 }, -- blue
+  { 32, 97, 30, 28 }, -- green
+  { 0, 129, 30, 28 }, -- yellow
+}
+
 function Player:new(x, y, image)
-  Player.super.new(self, x, y, image, 32, 33, 30, 28)
   playerCount = playerCount + 1
+  local sprite = PlayerSprites[playerCount]
+  Player.super.new(self, x, y, image, unpack(sprite))
   self.speed = 150
   self.pid = playerCount
   self.canBomb = true
